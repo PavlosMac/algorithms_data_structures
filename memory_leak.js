@@ -1,3 +1,6 @@
+// longStr is never collected in below code
+// originalThing points to thing
+
 let thing = null;
 
 let makeMe = function () {
@@ -7,20 +10,23 @@ let makeMe = function () {
   let unused = function () {
     if (originalThing)
       console.log("hi");
-  };
-
-  theThing = {
+    };
+  thing = {
     longStr: new Array(1000000).join('*'),
     someMethod: function () {
       console.log(someMessage);
     }
+
   };
-  
+    originalThing = null; // fix to prevent memory leak
 };
 
 setInterval(makeMe, 1000);
 
+
+
 var theThing = null;
+
 var replaceThing = function () {
   var originalThing = theThing;
   theThing = {
